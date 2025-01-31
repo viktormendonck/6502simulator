@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	{
+	"label": "Run Python HTTP Server",
+	"type": "shell",
+	"command": "python",
+	"args": [
+		"-m",
+		"http.server",
+		"8000"
+	],
+	"group": {
+		"kind": "build",
+		"isDefault": true
+	},
+	"problemMatcher": [],
+	"detail": "Start Python HTTP server on port 8000",
+	"presentation": {
+		"reveal": "silent",
+		"panel": "new"
+	}
+	}
+]
+}

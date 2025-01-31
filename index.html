@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title>6502 assembler/simulator</title>
+  </head>
+  <body>
+
+    <!-- Main Container for both the Sidebar and Main Content -->
+    <div class="page-container">
+
+      <div class="chapters-container" id="chapters-container">
+        <!-- The chapters will be populated here by JavaScript -->
+      </div>
+
+      <!-- Main content -->
+      <div class="widget">
+        <div class="buttons">
+          <input type="button" value="Assemble" class="assembleButton" />
+          <input type="button" value="Run" class="runButton" />
+          <input type="button" value="Reset" class="resetButton" />
+          <input type="button" value="Hexdump" class="hexdumpButton" />
+          <input type="button" value="Disassemble" class="disassembleButton" />
+        </div>
+
+        <textarea class="code"></textarea>
+
+        <div class="debugger">
+          <input type="checkbox" class="debug" name="debug" />
+          <label for="debug">Debugger</label>
+          <div class="minidebugger"></div>
+          <div class="buttons">
+            <input type="button" value="Step" class="stepButton" />
+            <input type="button" value="Jump to ..." class="gotoButton" />
+          </div>
+        </div>
+
+        <div class="monitorControls">
+          <label for="monitoring">Monitor</label>
+          <input type="checkbox" class="monitoring" name="monitoring"/>
+          <label for="start">Start: $</label>
+          <input type="text" value="0" class="start" name="start" />
+          <label for="length">Length: $</label>
+          <input type="text" value="ff" class="length" name="length" />
+        </div>
+        <div class="monitor"><pre><code></code></pre></div>
+        <div class="messages"><pre><code></code></pre></div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="assembler.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

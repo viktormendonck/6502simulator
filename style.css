@@ -1,0 +1,286 @@
+/* Basic styling for the page */
+body {
+  background-color: #121212;
+  color: #ddd;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container that wraps the sidebar and widget (main content) */
+.page-container {
+  display: flex; /* Use flexbox to arrange the sidebar and content side by side */
+  justify-content: flex-start; /* Align them horizontally to the left */
+  margin-top: 30px; /* Add space above the layout */
+  margin-left: 20px; /* Adjust this if you want more space between the content and the left side of the page */
+  margin-right: 20px;
+}
+
+/* Main content (widget) */
+.widget {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #ddd;
+  background-color: #222;
+  padding: 20px;
+  margin-top: 30px; /* Add space from top */
+}
+
+/* Buttons and text areas (no change from your original CSS) */
+.widget .buttons,
+.widget textarea,
+.widget canvas,
+.widget .debugger,
+.widget .monitorControls,
+.widget .monitor,
+.widget .messages {
+  margin-bottom: 10px;
+}
+
+/* Styling for input elements (buttons, text areas) */
+input[type="button"], input[type="text"], textarea {
+  background: #333;
+  color: #ddd;
+  border: 1px solid #555;
+}
+
+/* Styling for buttons */
+input[type="button"] {
+  background: #333;
+  color: #ddd;
+  border: 1px solid #555;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Button pressed down (active state) */
+input[type="button"]:active {
+  background-color: #555;  /* Change background when button is pressed */
+  transform: scale(0.95);  /* Slightly shrink the button for a press effect */
+}
+
+/* Button on hover */
+input[type="button"]:hover {
+  background-color: #444;  /* Change background on hover */
+}
+
+.buttons {
+  margin: 8px 0;
+}
+
+.start, .length {
+  width: 50px;
+  background: #333;
+  color: #ddd;
+  border: 1px solid #555;
+}
+
+.widget pre {
+  margin: 0;
+  padding: 0;
+  background: inherit;
+  border: none;
+  color: #ddd;
+}
+
+.code {
+  margin: 0 0 6px 0;
+  padding: 6px;
+  border: 1px solid #555;
+  background-color: #111;
+  color: #ddd;
+  width: 420px;
+  height: 290px;
+  font-family: monospace;
+  overflow: auto;
+  float: left;
+}
+
+.screen {
+  float: right;
+}
+
+.debugger {
+  border: 1px solid #555;
+  background-color: #181818;
+  margin-top: 6px;
+  padding: 3px;
+  padding-top: 8px;
+  height: 125px;
+  width: 152px;
+  text-align: center;
+  float: right;
+  color: #ddd;
+}
+
+.minidebugger {
+  margin: 0;
+  margin-top: 6px;
+  padding: 0;
+  font-family: monospace;
+  font-size: 11px;
+  color: #bbb;
+}
+
+.monitorControls {
+  width: 587px;
+  clear: both;
+  margin-bottom: 10px;
+  padding: 0;
+  color: #ddd;
+}
+
+.monitorControls input {
+  margin-right: 0.5em;
+  background: #333;
+  color: #ddd;
+  border: 1px solid #555;
+}
+
+.monitor {
+  margin: 10px 0;
+  padding: 6px;
+  border: 1px solid #666;
+  background-color: #282828;
+  width: 587px;
+  height: 100px;
+  overflow: auto;
+  display: none;
+  color: #ddd;
+}
+
+.messages {
+  margin: 0;
+  padding: 6px;
+  border: 1px solid #666;
+  background-color: #333;
+  overflow-y: auto;  /* Enables vertical scrolling when necessary */
+  max-height: 200px;  /* Limits the height to 100px */
+  width: 587px;
+  text-align: left;
+  font-size: 12px;
+  color: #ccc;
+}
+
+
+
+
+
+
+.chapters-container {
+  margin-right: 10px;
+  width: 350px;
+}
+
+/* Basic styling */
+body {
+  background-color: #121212;
+  color: #ddd;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Chapter and Subchapter Headers */
+.chapter-header, .subchapter-header {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.chapter-header:hover, .subchapter-header:hover {
+  background-color: #333;
+}
+
+/* Arrow Indicator */
+.chapter-header::after, .subchapter-header::after {
+  padding-left: 8px;
+  content: '>';
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+/* Rotates when expanded */
+.chapter.active .chapter-header::after,
+.subchapter.active .subchapter-header::after {
+  transform: rotate(90deg);
+}
+
+/* Chapter and Subchapter Content */
+.chapter-content, .subchapter-content {
+  margin-left: 20px;
+  padding-left: 10px;
+  display: none;
+}
+
+/* Active state */
+.chapter.active .chapter-content,
+.subchapter.active .subchapter-content {
+  display: block;
+}
+
+/* Make clickable elements stretch fully */
+.clickable-item {
+  background: none;
+  border: none;
+  color: #ddd;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 10px;
+  display: block;
+  text-align: left;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  width: 100%;  /* Makes it fill the entire width */
+  box-sizing: border-box; /* Ensures padding doesn't overflow */
+}
+
+.clickable-item:hover {
+  background-color: #444;
+}
+/* Subchapter Header Styling */
+.subchapter-header {
+  font-size: 15px;
+  font-weight: normal;
+  padding: 6px 10px;
+  background-color: #292929;
+  border-radius: 4px;
+}
+
+/* Subchapter Clickables */
+.subchapter-content .clickable-item {
+  margin-bottom: 4px;
+}
+
+/* Expand/Collapse buttons inside chapter header */
+.expand-collapse-wrapper {
+	display: flex;
+	gap: 8px;
+}
+
+.expand-collapse-btn {
+	cursor: pointer;
+	padding: 4px 6px;
+	border-radius: 4px;
+	background-color: #292929;
+	color: #ddd;
+	font-size: 14px;
+	transition: background 0.2s ease;
+}
+
+.expand-collapse-btn:hover {
+	background-color: #444;
+}
+
+/* Prevent text selection for clickable items and chapter headers */
+.clickable-item, .chapter-header, .subchapter-header {
+  user-select: none; /* Prevent selection */
+}

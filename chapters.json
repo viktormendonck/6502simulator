@@ -1,0 +1,60 @@
+[
+  {
+    "title": "Chapter 1",
+    "content": [
+      {
+        "type": "element",
+        "text": "LDA introduction",
+        "code": "lda #0"
+      },
+      {
+        "type": "subchapter",
+        "title": "Everything about Storing",
+        "content": [
+          {
+            "type": "element",
+            "text": "Storing basics",
+            "code": "lda #1\nlda #5"
+          },
+          {
+            "type": "element",
+            "text": "Storing advanced",
+            "code": "lda #2"
+          }
+        ]
+      },
+      {
+        "type": "subchapter",
+        "title": "Everything else about not storing idk",
+        "content": [
+          {
+            "type": "element",
+            "text": "PFFFFF",
+            "code": "lda #3"
+          }
+        ]
+      },
+      {
+        "type": "subchapter",
+        "title": "The rest of chapter 1 as elements",
+        "content": [
+          {
+            "type": "element",
+            "text": "Some other stuff",
+            "code": "lda #4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Chapter 2",
+    "content": [
+      {
+        "type": "element",
+        "text": "Some more chapter 2 stuff",
+        "code": "lda #5"
+      }
+    ]
+  }
+]
