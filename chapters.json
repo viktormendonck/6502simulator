@@ -1,47 +1,291 @@
 [
   {
-    "title": "Chapter 1",
+    "title": "An intro to 6502 assembly",
     "content": [
       {
-        "type": "element",
-        "text": "LDA introduction",
-        "code": "lda #0"
-      },
-      {
         "type": "subchapter",
-        "title": "Everything about Storing",
+        "title": "Getting Started",
         "content": [
           {
             "type": "element",
-            "text": "Storing basics",
-            "code": "lda #1\nlda #5"
+            "text": "Loading values",
+            "code": "lda #19 ;load decimal 19 into A\nldx #10 ;load decimal 10 into X\nldy #15 ;load decimal 15 into Y"
           },
           {
             "type": "element",
-            "text": "Storing advanced",
-            "code": "lda #2"
+            "text": "Storing Values",
+            "code": "lda #5\nsta 1\nldx #10\nstx 0\nldy #17\nsty 5"
           }
         ]
       },
       {
         "type": "subchapter",
-        "title": "Everything else about not storing idk",
+        "title": "Addressing Modes",
         "content": [
           {
             "type": "element",
-            "text": "PFFFFF",
-            "code": "lda #3"
+            "text": "Literal value",
+            "code": "lda #$FF ;load literal $FF into the A register"
+          },
+          {
+            "type": "element",
+            "text": "Value from address",
+            "code": "ldy $15 ;load whatever is stored at memory address $15 into y"
+          },
+          {
+            "type": "element",
+            "text": "X or Y indexed addressing",
+            "code": "ldx #$06 ;load 6 into X\nsta $05,X ;store register A at address $0b($05 + $06)"
+          },
+          {
+            "type": "element",
+            "text": "Indirect Indexed Addressing",
+            "code": "lda #$05\nsta 5\nlda #$60\nsta 6\nldy #$07\nsta ($05),Y;this stores whatever is at A into\n;$600c($6005 + $07)"
+          },
+          {
+            "type": "element",
+            "text": "Indexed Indirect Addressing",
+            "code": "lda #$05\nsta 5\nlda #$60\nsta 6\nldx #$02\nsta ($03,X) ;this will store whatever is at A($60) into $6005"
+          },
+          {
+            "type": "element",
+            "text": "closing on addressing modes",
+            "code": "ldy #$0\nlda ($2),Y\n;or\nldx #$0\nlda ($2,X) ;either of these would end up with\n;the same effect as the supposed (nn)"
           }
         ]
       },
       {
         "type": "subchapter",
-        "title": "The rest of chapter 1 as elements",
+        "title": "Let's get instructing",
+        "content": [ 
+          {
+            "type": "subchapter",
+            "title": "Loading and storing",
+            "content": [
+              {
+                "type": "element",
+                "text": "Loading Values",
+                "code": "lda #0 ;sets A to 0 and sets the Z flag in the P register"
+              },
+              {
+                "type": "element",
+                "text": "Storing values",
+                "code": "lda #9 ;load decimal 9 into A\nsta $70 ;store whatever was at A in address $70"
+              }
+            ]
+          },
+          {
+            "type": "subchapter",
+            "title": "Controlling The P Register",
+            "content": [
+              {
+                "type": "element",
+                "text": "clearing flags",
+                "code": "clc ;clears the carry flag"
+              },
+              {
+                "type": "element",
+                "text": "setting flags",
+                "code": "sed ;sets the decimal flag"
+              }
+            ]
+          },
+          {
+            "type": "subchapter",
+            "title": "Maths",
+            "content": [
+              {
+                "type": "element",
+                "text": "addition",
+                "code": "lda #5 ;load 5 into A\nclc ;clear the carry flag\nadc #5 ;this will result to the A register's value being $0A"
+              },
+              {
+                "type": "element",
+                "text": "incrementing",
+                "code": "ldy #$FF ;set Y's value to 255\niny ;increment Y's value, making it 0\n    ;this will also set the Zero and Carry flag to 1\nlda #5 ;load 5 into A\nsta 4 ;load A(5) into address 4\ninc 4 ;incrementing address 4, resulting in 6,\n      ;the zero and carry flag will be 0"
+              },
+              {
+                "type": "element",
+                "text": "subtraction",
+                "code": "lda 10 ;load 10 into A\nsec ;set the carry flag\nsbc #5 ;this will result in the A register's value being $05"
+              },
+              {
+                "type": "element",
+                "text": "decrement",
+                "code": "ldx #5 ;load value 5 into x\ndex ;decrement the x register by 1, resulting in 4\nstx 3 ; store X(4) into address 3\ndec 3 ; decrement address 3's value by 1, resulting in 2"
+              }
+            ]
+          },
+          {
+            "type": "subchapter",
+            "title": "Flow Controll",
+            "content": [
+              {
+                "type": "element",
+                "text": "Jumping",
+                "code": "ldx #$0\nloop: ;global label loop\ninx\njmp loop"
+              },
+              {
+                "type": "element",
+                "text": "Conditional jump/Branching",
+                "code": ";in this code, we will be multiplying a value\nlda #5 ; load value you want to multiply\nsta 0; store it in address 0\nlda #0;clear a to be used for math later\nldx #7; store how much you want to multiply the value by\n:\n    clc ;clear carry for adding\n    adc 0;add 5 to the A register\n    dex ;decrease X by one, if the result is 0, set the Z flag\n    bne :-  ;jump to the previous label if the Z flag is clear, \n    ;in this case this will be true until the X register is 0\n    ;after this it will just continue the code"
+              },
+              {
+                "type": "element",
+                "text": "Conditional jump/Branching 2",
+                "code": ";in this code we will be clearing the first 256 bytes of memory\nlda #0\nldx #$FF\nclear_mem_loop:\n    sta 0,Y ;set address Y to 0\ndey\nbne clear_mem_loop ; unless Y reaches 0, jump back\n;continue the code when Y reaches 0"
+              },
+              {
+                "type": "element",
+                "text": "Comparing",
+                "code": ";Getting the greatest value from all of your registers\n;The greatest value will be stored at address 0\n\nlda #15 ; load the value 15 into the A register\nldx #$15 ; load the value 21 into the X register\nldy #%00011011 ; load the value 27 into the Y register\nget_greatest_register:\n    sty 0 ; store Y into memory address 0\n    cpx 0 ; compare X to memory address 0\n    bcc x_not_greatest; branch to the label if Y < X\\\n        stx 0 ; We didn't jump, so Y > X. Let's store X into\n              ; address 0 for now as the greatest register.\n    x_not_greatest:\n        cmp 0 ; address 0 now holds either X or Y, \n              ; whichever is bigger compare A to this value.\n        bcc a_not_greatest ; branch if A is less than address 0 \n            sta 0 ;We didn't jump, so A is the biggest.\n                  ;Store it in 0\na_not_greatest:\n;after this, the biggest of the 3 registers will be in address 0"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "text": "The Stack",
+            "code": "lda #15 ; load 15 into A\npha ;push 15 onto the stack\n;do any other code here\npla ;pull 15 back off of the stack and into A"
+          },
+          {
+            "type": "element",
+            "text": "Subroutines",
+            "code": ";in this code we will make an A times 2 function}\nlda #2\njsr double_A\njsr double_A\njmp skip_func\n\ndouble_A:\n    sta 0 ;store A in address 0\n    clc   ;prepare the carry flag for addition\n    adc 0 ;add A to itself\n    rts ;return back to right after you call the subroutine\nskip_func:;in this code we will make an A times 2 function}\nlda #2\njsr double_A\njsr double_A\njmp skip_func\n\ndouble_A:\n    sta 0 ;store A in address 0\n    clc   ;prepare the carry flag for addition\n    adc 0 ;add A to itself\n    rts ;return back to right after you call the subroutine\nskip_func:"
+          },
+          {
+            "type":"subchapter",
+            "title": "Binary Opperations",
+            "content":[
+              {
+                "type": "element",
+                "text": "Shifting",
+                "code": "lda #$02 ; Load the value 2 into the accumulator\nasl ; Shift the accumulator left by one bit (result is 4)\nsta $0200 ; Store the result (4) into memory location $0200"
+              },
+              {
+                "type": "element",
+                "text": "Rotating",
+                "code": "ldx #$04 ; Load the value 4 into the accumulator\nstx $01 ;store 4 into address 1\nror $01 ;Rotate the value at address 1 tot the right\n; the result (2) is in memory address 1"
+              },
+              {
+                "type": "element",
+                "text": "AND",
+                "code": "lda #%11011010 ; load binary 11011010 into A\nand #%10101100 ; A becomes 10001000"
+              },
+              {
+                "type": "element",
+                "text": "OR",
+                "code": "lda #%11011010 ; load binary 11011010 into A\nora #%10101100 ; A becomes 11111110"
+              },
+              {
+                "type": "element",
+                "text": "XOR",
+                "code": "lda #%11011010 ; load binary 11011010 into A\neor #%10101100 ; A becomes 01110110"
+              },
+              {
+                "type": "element",
+                "text": "BIT",
+                "code": "lda #%11011010 ; load binary 11011010 into A\nbit #%10101100 ; zero flag is 0,\n               ; negative flag is 1,\n               ; overflow flag is 0"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "text": "Transferring Registers",
+            "code": "lda #5 ; load 5 into A\ntax ; store 5 into X"
+          },
+          {
+            "type":"subchapter",
+            "title":"Miscellaneous",
+            "content":[
+              {
+                "type": "element",
+                "text": "No Opperation",
+                "code": "nop ; no operation, just move to the next instruction"
+              },
+              {
+                "type": "element",
+                "text": "Getting low and high bytes",
+                "code": "lda #>$1234 ; load $12 into A\nlda #<$1234 ; load $34 into A"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "text": "Break",
+            "code": "lda #5\nbne not_zero ;if A is not 0, skip the break\n    brk ;if A is 0 now, something went wrong, so break\nnot_zero:"
+          }
+       ]
+      },
+      {
+        "type": "subchapter",
+        "title": "Exercises",
         "content": [
           {
             "type": "element",
-            "text": "Some other stuff",
-            "code": "lda #4"
+            "text": "Basic addition",
+            "code": "lda #$05 ; first 8-bit value\nclc ; clear carry flag\nadc #$FF ; second 8-bit value\nsta $00 ; store low byte of result\nbcc no_carry ; if no carry, skip next instruction\nlda #$01 ; set high byte to 1 if carry occurred\nsta $01 ; store high byte of result\njmp end\n\nno_carry:\n    lda #$00 ; set high byte to 0 if no carry\n    sta $01 ; store high byte of result\nend:"
+          },
+          {
+            "type": "element",
+            "text": "16 bit addition",
+            "code": ";add values $10F3 and $5067\nlda #$F3  ; load low byte of first 16-bit value\nclc ; clear carry flag\nadc #$67 ; add low byte of second 16-bit value\nsta $0 ; store low byte of result\n\nlda #$10 ; load high byte of first 16-bit value\nadc #$50 ; add high byte of second value\nsta $1 ; store high byte of result\n\n;While 16 bit addition would seem harder than the last\n;exercise it makes sense that this goes more seamless as\n;it will be needed much more than the previous one"
+          },
+          {
+            "type": "subchapter",
+            "title": "Ram Filling",
+            "content":[
+              {
+                "type": "element",
+                "text": "every address",
+                "code": "ldx #$00 ; start at address $0000\nldy #$ff ; value to fill with\nlda #$ab ; load the end address\nsta $100 ; store the end address\n\nfill_loop:\n    sty $00,x ; store $ff at address $0000 + x\n    inx ; increment x\n    cpx $100 ; compare x to the end address\n    bne fill_loop ; repeat until x is equal to the end address\n"
+              },
+              {
+                "type": "element",
+                "text": "every other address",
+                "code": "ldx #$00 ; start at address $0000\nldy #$ff ; value to fill with\nlda #$ab ; load the end address\nsta $100 ; store the end address\n\nfill_loop:\n    sty $00,x ; store $ff at address $0000 + x\n    inx ; increment x\n    inx ; increment x again to skip one\n    cpx $100 ; compare x to the end address\n    bcc fill_loop ; repeat until x is greater than\n                  ; or equal to the end address"
+              }
+            ]
+          },
+          {
+            "type": "element",
+            "text": "Counting Occurences",
+            "code": ";count how many times a value($5) occurs in the first\n;10 addresses in ram\njsr fill_ram ;fill the first 10 values in ram\nldx #$00 ; start at address $0000\nldy #$00 ; initialize count to 0\nlda #$05 ; value to count\n\ncount_loop:\n    cmp $0,x ; compare value at address $0+x\n    bne no_match ; if not equal, skip next instruction\n    iny ; increment count if match\nno_match:\n    inx ; increment x\n    cpx #10 ; compare x to length of series\n    bne count_loop ; repeat until end of series         \n    ; count is stored in y\n    jmp end\n\nfill_ram:\n    lda #$19\n    sta $00\n    lda #$30\n    sta $01\n    lda #$5\n    sta $02\n    lda #$70\n    sta $03\n    lda #$12\n    sta $04\n    lda #$82\n    sta $05\n    lda #$12\n    sta $06\n    lda #$96\n    sta $07\n    lda #$69\n    sta $08\n    lda #$05\n    sta $09\n    lda #$F1\n    sta $0a \n    rts\nend:"
+          },
+          {
+            "type": "element",
+            "text": "Maximum value finder",
+            "code": "jsr fill_ram\n\nldx #$00 ; start at address $0000\nlda $00 ; load first value\n\nmax_loop:\n    cmp $0000,x ; compare current max with value\n    bcs no_update ; if current max is greater, \n                  ; skip the next instruction\n    lda $0000,x ; update max value\n    sta $40 ; store new max value\nno_update:\n    inx ; increment x\n    cpx #10 ; compare x to length of series\n    bne max_loop ; repeat until end of series\n    jmp end\nfill_ram:\n    lda #5\n    sta $00\n    lda #99\n    sta $01\n    lda #5\n    sta $02\n    lda #7\n    sta $03\n    lda #2\n    sta $04\n    lda #201\n    sta $05\n    lda #31\n    sta $06\n    lda #25\n    sta $07\n    lda #58\n    sta $08\n    lda #40\n    sta $09\n    lda #15\n    sta $0a  \n    rts\n\nend:"
+          },
+          {
+            "type": "element",
+            "text": "buble sort",
+            "code": "jsr fill_ram\n; bubble sort algorithm\nsortloop:\n    ldx #0\n    ldy #0  ; use Y as swapflag\n\ninnerloop:\n    lda $00, x\n    cmp $01, x\n    bcc noswap\n    ; swap values using stack\n    lda $00, x\n    pha  ; push A onto stack\n    lda $01, x\n    sta $00, x\n    pla  ; pull from stack into A\n    sta $01, x\n    iny  ; set swapflag\n\nnoswap:\n    inx\n    cpx #10\n    bne innerloop\n\n    ; check if any swaps were made\n    cpy #0\n    beq endproc\n    jmp sortloop\n\n\nfill_ram:\n    lda #10\n    sta $00\n    lda #3\n    sta $01\n    lda #5\n    sta $02\n    lda #7\n    sta $03\n    lda #2\n    sta $04\n    lda #8\n    sta $05\n    lda #1\n    sta $06\n    lda #9\n    sta $07\n    lda #6\n    sta $08\n    lda #4\n    sta $09\n    lda #0\n    sta $0a\n    rts\nendproc:"
+          },
+          {
+            "type": "subchapter",
+            "title": "Multiplying",
+            "content": [
+              {
+                "type": "element",
+                "text": "times 2",
+                "code": "lda #5;number to double\nasl ; double value in a"
+              },
+              {
+                "type": "element",
+                "text": "times 4",
+                "code": "lda #5;number to quadruple\nasl ; double value in a\nasl ; double value in a again"
+              },
+              {
+                "type": "element",
+                "text": "times 5",
+                "code": "lda #5;number to quintuple\nsta $00 ;store it for later addition\nasl ; double value in a\nasl ; double value in a again\nclc ;clear carry flag for addition\nadc $00 ;add original value to it"
+              },
+              {
+                "type": "element",
+                "text": "times X",
+                "code": "lda #$19 ; load the first value into A\nsta $05 ; store the original value of A in $05\nldx #$05 ; load the second value into X\nlda #0\n\nmultiply_loop:\n    cpx #$00 ; check if X is 0\n    beq end ; if X is 0, we're done\n\n    ; Check if X is even\n    ror x ; move the least significant bit into carry \n    bcc even ; if carry is clear, X is even\n    rol x\n    ; If X is odd, add the original value of A to the result\n    clc ; clear carry flag\n    adc $05 ; add the original value of A to the result\n    dex ; decrement X\n    jmp multiply_loop\n\neven:\n   asl ;double A by shifting it\n   ;x is still shifted back and we can keep it that way.\n   jmp multiply_loop\nend:\n;the result is stored in A, do know, this version will not work when passing the 8 bit barrier"
+              }
+            ]
           }
         ]
       }
@@ -58,3 +302,4 @@
     ]
   }
 ]
+
